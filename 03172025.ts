@@ -1,4 +1,4 @@
-// Create a stack class
+// Create a stack class.
 
 class MyStack {
   private stack: number[];
