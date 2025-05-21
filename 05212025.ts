@@ -12,7 +12,6 @@ function lengthOfLongestSubstring(str: string): number {
 
     // Step 2: Validate window condition.
     if (charMap.get(str[right]) === 1) {
-      console.log(result, right, left);
       result = Math.max(result, right - left + 1);
     }
 
