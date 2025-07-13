@@ -1,17 +1,22 @@
 // Top K frequent elements. (Priority queue)
 
 function topKFrequent(nums: number[], k: number): number[] {
-  const maxPQ = new MaxPriorityQueue();
-  nums.forEach((num) => maxPQ.enqueue(num));
-  const result: number[] = [];
+  const map = new Map<number, number>(); // [num, count]
+  const heap = new MaxPriorityQueue<number[]>(([num, count]) => count); // Pass callback to order by count.
+  const result = [];
 
-  while (result.length < k) {
-    const curr = Number(maxPQ.dequeue());
-    const prev = result.at(-1);
+  // Step 1: Populate map.
+  nums.forEach((num) => map.set(num, (map.get(num) || 0) + 1));
 
-    if (curr !== prev) {
-      result.push(curr);
-    }
+  // Step 2: Populate heap.
+  for (const [num, frequency] of map) {
+    heap.enqueue([num, frequency]);
+  }
+
+  // Step 3: Populate result.
+  for (let i = 0; i < k; i++) {
+    const [num, count] = heap.dequeue() as number[];
+    result.push(num);
   }
 
   return result;
