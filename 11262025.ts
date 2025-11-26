@@ -1,0 +1,33 @@
+// Next greater element I. (Monotonic stack)
+
+function nextGreaterElement(nums1: number[], nums2: number[]): number[] {
+  const map = new Map<number, number>();
+  // const result: number[] = Array(nums1.length).fill(-1);
+  const stack: number[] = [];
+
+  // Step 1: Populate map with nums1 values.
+  nums1.forEach((num) => map.set(num, -1));
+
+  // Step 2: Monotonic stack algorithm on nums2.
+  for (const num of nums2) {
+    while (num > stack.at(-1)!) {
+      const prev = stack.pop()!;
+
+      if (map.has(prev)) {
+        map.set(prev, num);
+      }
+    }
+
+    stack.push(num);
+  }
+  
+  return [...map.values()];
+}
+
+console.log(nextGreaterElement([4, 1, 2], [1, 3, 4, 2]), [-1, 3, -1]);
+console.log(nextGreaterElement([2, 4], [1, 2, 3, 4]), [3, -1]);
+// https://leetcode.com/problems/next-greater-element-i/
+
+// nums1: number[]. 1 <= nums1.length <= 1000. 0 <= nums1[i] <= 10^4. All integers are unique. Driving array.
+// nums2: number[]. 1 <= nums2.length <= 1000. 0 <= nums2[i] <= 10^4. All integers are unique. 
+// Map each value from nums1 to nums2, then return the next greater nums2 value, or -1 if none exists.
